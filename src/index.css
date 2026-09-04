@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-condensed: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-sans: "DM Sans", "Helvetica Neue", sans-serif;
+
+  --color-cobalt: #0026c4;
+  --color-cobalt-deep: #001a8c;
+  --color-limestone: #f3ebdc;
+  --color-cream: #e8dcc8;
+  --color-stone: #c4b49a;
+  --color-ink: #0b0b0b;
+  --color-grass: #1a8f38;
+  --color-grass-deep: #0f5f24;
+  --color-crimson: #c41e2a;
+  --color-azure: #4d86ff;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  min-height: 100dvh;
+}
+
+body {
+  margin: 0;
+  background: var(--color-cobalt);
+  color: var(--color-limestone);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+::selection {
+  background: var(--color-limestone);
+  color: var(--color-cobalt);
+}
+
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.frame {
+  pointer-events: none;
+  position: fixed;
+  inset: 10px;
+  z-index: 30;
+  border: 1px solid color-mix(in srgb, var(--color-limestone) 55%, transparent);
+}
+
+.horizon {
+  pointer-events: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  height: 14px;
+  background:
+    linear-gradient(180deg, transparent, color-mix(in srgb, var(--color-ink) 35%, transparent)),
+    linear-gradient(90deg, var(--color-grass-deep), var(--color-grass), var(--color-grass-deep));
+}
+
+.pillar {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 15;
+  width: 18px;
+  background:
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-limestone) 10%, transparent) 40%, transparent),
+    repeating-linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-limestone) 16%, transparent) 0 1px,
+      transparent 1px 28px
+    );
+}
+
+.panel-enter {
+  animation: rise 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.shake {
+  animation: shake 280ms ease-in-out;
+}
+
+.reveal {
+  animation: reveal 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-7px);
+  }
+  75% {
+    transform: translateX(7px);
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel-enter,
+  .shake,
+  .reveal {
+    animation: none;
+  }
+}
+
+.field:focus-visible,
+.action:focus-visible,
+.ghost:focus-visible {
+  outline: 2px solid var(--color-limestone);
+  outline-offset: 3px;
+}
