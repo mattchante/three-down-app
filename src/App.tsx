@@ -4,7 +4,7 @@ import { ResultsView } from "./components/ResultsView";
 import { useGame } from "./hooks/useGame";
 
 export default function App() {
-  const { game, question, draft, setDraft, feedback, selectVersion, submit, goNext, playAgain } = useGame();
+  const { game, record, question, draft, setDraft, feedback, selectVersion, submit, goNext, playAgain } = useGame();
 
   return (
     <div className="relative min-h-dvh bg-cobalt">
@@ -30,7 +30,7 @@ export default function App() {
 
         <main className="mt-10 flex-1">
           {game.phase === "complete" ? (
-            <ResultsView game={game} onPlayAgain={playAgain} />
+            <ResultsView game={game} record={record} onPlayAgain={playAgain} />
           ) : (
             <QuestionView
               key={`${game.id}-${game.currentIndex}`}

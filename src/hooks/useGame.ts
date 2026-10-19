@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { checkAnswer, remainingAttempts } from "../lib/answers";
 import { generateGame } from "../lib/game";
+import { loadRecord, recordGame, type PlayerRecord } from "../lib/record";
 import type { FeedbackKind, Game } from "../types";
 
 const LOCK_MS = 280;
@@ -10,6 +11,7 @@ export function useGame() {
   const [draft, setDraft] = useState("");
   const [feedback, setFeedback] = useState<FeedbackKind>("idle");
   const [selectVersion, setSelectVersion] = useState(0);
+  const [record, setRecord] = useState<PlayerRecord>(() => loadRecord());
   const lockRef = useRef(false);
 
   const question = game.questions[game.currentIndex];
@@ -60,11 +62,13 @@ export function useGame() {
   }, [draft, game]);
 
   const goNext = useCallback(() => {
-    if (lockRef.current) return;
+    if (lockRef.current || game.phase !== "playing") return;
     const current = game.questions[game.currentIndex];
     if (current.status === "unanswered") return;
 
     if (game.currentIndex >= 2) {
+      lockRef.current = true;
+      setRecord(recordGame(game));
       setGame((prev) => ({ ...prev, phase: "complete" }));
       return;
     }
@@ -91,6 +95,7 @@ export function useGame() {
 
   return {
     game,
+    record,
     question,
     draft,
     setDraft,

@@ -59,6 +59,10 @@ export function QuestionView({
         </span>
       </h2>
 
+      <p className="-mt-2 mb-7 font-condensed text-[15px] font-semibold tracking-[0.2em] text-limestone/75">
+        {question.player.position} · {question.player.currentTeam}
+      </p>
+
       <p className="mb-8 max-w-[16ch] font-display text-[26px] italic leading-tight text-limestone/90 sm:text-[30px]">
         {copy.prompt}
       </p>
